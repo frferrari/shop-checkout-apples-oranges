@@ -1,0 +1,33 @@
+PicSolve homework
+=================
+
+You can run the test using
+
+./activator test
+
+Or run the application using
+
+./activator run
+
+Step 1
+======
+
+The webservice has en entry point at /checkout and it waits for a json array of products (list of strings).
+An unknown product is ignored (the total doesn't change in this case).
+
+You can query the webservice using the following curl command :
+
+curl --include --request GET --header "Content-type: application/json" --data '["apple", "orange"]' http://localhost:9000/checkout
+
+You should get back the following json
+
+{"status":"OK", "total": 0.85}
+
+
+Or you can check that an unknown product is ignored :
+
+curl --include --request GET --header "Content-type: application/json" --data '["apple", "oranges"]' http://localhost:9000/checkout
+
+You should get back the following json
+
+{"status":"OK", "total": 0.60}
