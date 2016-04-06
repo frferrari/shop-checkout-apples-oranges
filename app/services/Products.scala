@@ -16,7 +16,7 @@ object Products {
 	def calculateProductsTotalPrice(productList: List[String]): Future[BigDecimal] = {
 		val prices = productList.groupBy(p => p).map { case (productName, productList) =>
 			getProductPrice(productName).map {
-				case Some(price) 	=> productList.size * price
+				case Some(price) 	=> ProductOffers.getOfferByProduct(productName).calculateTotal(productList.size, price)
 				case _ 						=> BigDecimal(0)
 			}
 		}

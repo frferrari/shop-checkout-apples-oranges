@@ -31,3 +31,12 @@ curl --include --request GET --header "Content-type: application/json" --data '[
 You should get back the following json
 
 {"status":"OK", "total": 0.60}
+
+
+Or you can check for offers :
+
+curl --include --request GET --header "Content-type: application/json" --data '["apple", "orange", "apple", "orange", "apple", "orange"]' http://localhost:9000/checkout
+
+You should get back the following json
+
+{"status":"OK", "total": 1.70}
