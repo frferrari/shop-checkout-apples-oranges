@@ -11,10 +11,10 @@ import scala.concurrent.ExecutionContext.Implicits.global
  * In the real life we would probably access a database of products
  */
 object Products {
-	var productList = List(Product("apple", 0.60), Product("orange", 0.25))
+	val dbProductList = List(Product("apple", 0.60), Product("orange", 0.25))
 
-	def calculateProductsTotalPrice(productList: List[String]): Future[BigDecimal] = {
-		val prices = productList.groupBy(p => p).map { case (productName, productList) =>
+	def calculateProductsTotalPrice(products: List[String]): Future[BigDecimal] = {
+		val prices = products.groupBy(p => p).map { case (productName, productList) =>
 			getProductPrice(productName).map {
 				case Some(price) 	=> ProductOffers.getOfferByProduct(productName).calculateTotal(productList.size, price)
 				case _ 						=> BigDecimal(0)
@@ -26,11 +26,17 @@ object Products {
 		Future.fold(prices)(BigDecimal(0))(_ + _)
 	}
 
+	/*
+	 * Get a Product given a product name
+	 */
 	def getProduct(productName: String): Future[Option[Product]] = Future {
-		productList.filter(_.name == productName).headOption
+		dbProductList.filter(_.name == productName).headOption
 	}
 
+	/*
+	 * Get a product price given a product name
+	 */
 	def getProductPrice(productName: String): Future[Option[BigDecimal]] = Future {
-		productList.filter(_.name == productName).map(_.price).headOption
+		dbProductList.filter(_.name == productName).map(_.price).headOption
 	}
 }
