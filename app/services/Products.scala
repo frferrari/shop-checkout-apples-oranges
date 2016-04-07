@@ -30,13 +30,13 @@ object Products {
 	 * Get a Product given a product name
 	 */
 	def getProduct(productName: String): Future[Option[Product]] = Future {
-		dbProductList.filter(_.name == productName).headOption
+		dbProductList.find(_.name == productName)
 	}
 
 	/*
 	 * Get a product price given a product name
 	 */
 	def getProductPrice(productName: String): Future[Option[BigDecimal]] = Future {
-		dbProductList.filter(_.name == productName).map(_.price).headOption
+		dbProductList.find(_.name == productName).map(_.price)
 	}
 }

@@ -68,7 +68,7 @@ class ShopSpec extends PlaySpec with OneServerPerSuite with HtmlUnitFactory {
 			(jsonResult \ "total").as[BigDecimal] should equal(BigDecimal(1.45))
 		}
 
-		"calculate the total price for 3 apples (pay for 2 apples) and 5 oranges (pay for 4 oranges) and forget an unknown product" in {
+		"calculate the total price for 3 apples (pay for 2 apples) and 5 oranges (pay for 4 oranges) and discard an unknown product" in {
 			val request = FakeRequest("GET", "/checkout").withJsonBody(Json.parse(
 				s"""[ "orange", "kiwi", "apple", "orange", "apple", "orange", "orange", "apple", "orange" ]""".stripMargin))
 			val postResult = call(common.shopController.checkout, request)
@@ -78,7 +78,7 @@ class ShopSpec extends PlaySpec with OneServerPerSuite with HtmlUnitFactory {
 			(jsonResult \ "total").as[BigDecimal] should equal(BigDecimal(2.20))
 		}
 
-		"calculate the total price and dismiss invalid product names" in {
+		"calculate the total price and discard invalid product names" in {
 			val request = FakeRequest("GET", "/checkout").withJsonBody(Json.parse(
 				s"""[ "apples", "apple", "oranges" ]""".stripMargin))
 			val postResult = call(common.shopController.checkout, request)
