@@ -13,9 +13,9 @@ import services.Products
  */
 class ShopController extends Controller {
 
-	def checkout = Action.async(BodyParsers.parse.json) { request => 
-		val productList = request.body.as[List[String]]
+  def checkout = Action.async(BodyParsers.parse.json) { request => 
+    val productList = request.body.as[List[String]]
 
-		Products.calculateProductsTotalPrice(productList).map(t => Ok(Json.obj("status" -> "OK", "total" -> t)))
-	}
+    Products.calculateProductsTotalPrice(productList).map(t => Ok(Json.obj("status" -> "OK", "total" -> t)))
+  }
 }
